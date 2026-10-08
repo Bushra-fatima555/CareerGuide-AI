@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerGuide AI | Smart Career Recommendation</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, #312e81, transparent 35%),
+                radial-gradient(circle at bottom right, #164e63, transparent 35%),
+                #070b1a;
+
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #67e8f9;
+        }
+
+        .nav-text {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+            padding: 70px 20px 40px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 18px;
+
+            background: linear-gradient(
+                90deg,
+                #67e8f9,
+                #a78bfa
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+
+            color: #cbd5e1;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        /* MAIN CONTAINER */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* CARD */
+
+        .card {
+            background: rgba(15, 23, 42, 0.75);
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            border-radius: 22px;
+
+            padding: 35px;
+
+            margin-top: 30px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.35);
+
+            backdrop-filter: blur(20px);
+        }
+
+        .card h2 {
+            margin-bottom: 10px;
+            color: #67e8f9;
+        }
+
+        .card-subtitle {
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: #e2e8f0;
+        }
+
+        select {
+            padding: 14px;
+
+            border-radius: 12px;
+
+            border: 1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+        select:focus {
+            border-color: #67e8f9;
+        }
+
+        /* BUTTON */
+
+        .btn {
+            margin-top: 30px;
+
+            width: 100%;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #06b6d4,
+                    #7c3aed
+                );
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 10px 30px rgba(34,211,238,0.25);
+        }
+
+        /* RESULT */
+
+        .result {
+            margin-top: 50px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-header h2 {
+            font-size: 32px;
+            color: #67e8f9;
+        }
+
+        .result-header p {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        /* BEST CAREER */
+
+        .best-career {
+            text-align: center;
+
+            padding: 35px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(34,211,238,0.12),
+                    rgba(124,58,237,0.12)
+                );
+
+            border: 1px solid rgba(103,232,249,0.2);
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 7px 16px;
+
+            border-radius: 30px;
+
+            background: rgba(34,211,238,0.15);
+
+            color: #67e8f9;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+        .best-career h3 {
+            font-size: 36px;
+
+            margin-bottom: 15px;
+        }
+
+        .match-score {
+            font-size: 48px;
+
+            font-weight: bold;
+
+            color: #67e8f9;
+
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #cbd5e1;
+
+            line-height: 1.7;
+
+            max-width: 750px;
+
+            margin: auto;
+        }
+
+        /* TOP MATCHES */
+
+        .top-matches {
+            margin-top: 35px;
+        }
+
+        .top-matches h3 {
+            margin-bottom: 20px;
+
+            color: #e2e8f0;
+        }
+
+        .match-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+        .match-card {
+            padding: 20px;
+
+            background: rgba(30,41,59,0.65);
+
+            border-radius: 15px;
+
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .match-card strong {
+            font-size: 17px;
+        }
+
+        .match-percent {
+            float: right;
+
+            color: #67e8f9;
+
+            font-weight: bold;
+        }
+
+        .progress {
+            height: 7px;
+
+            background: #1e293b;
+
+            border-radius: 10px;
+
+            margin-top: 14px;
+
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #06b6d4,
+                    #8b5cf6
+                );
+
+            border-radius: 10px;
+        }
+
+        /* DETAILS */
+
+        .details-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+
+            margin-top: 30px;
+        }
+
+        .detail-box {
+            background: rgba(30,41,59,0.55);
+
+            padding: 25px;
+
+            border-radius: 16px;
+
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .detail-box h4 {
+            color: #67e8f9;
+
+            margin-bottom: 12px;
+
+            font-size: 18px;
+        }
+
+        .detail-box p {
+            color: #cbd5e1;
+
+            line-height: 1.7;
+        }
+
+        /* SKILLS */
+
+        .skills {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+        .skill {
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background: rgba(124,58,237,0.2);
+
+            color: #ddd6fe;
+
+            font-size: 13px;
+        }
+
+        /* ROADMAP */
+
+        .roadmap {
+            margin-top: 30px;
+        }
+
+        .roadmap h3 {
+            color: #67e8f9;
+
+            margin-bottom: 20px;
+        }
+
+        .roadmap-item {
+            display: flex;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+
+            padding: 16px;
+
+            background: rgba(30,41,59,0.55);
+
+            border-radius: 12px;
+        }
+
+        .step-number {
+            min-width: 35px;
+
+            height: 35px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #06b6d4,
+                    #7c3aed
+                );
+
+            font-weight: bold;
+        }
+
+        .roadmap-item span:last-child {
+            color: #cbd5e1;
+
+            line-height: 1.6;
+        }
+
+        /* FEATURES */
+
+        .features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin: 50px 0;
+        }
+
+        .feature {
+            text-align: center;
+
+            padding: 28px 20px;
+
+            background: rgba(15,23,42,0.7);
+
+            border-radius: 18px;
+
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .feature-icon {
+            font-size: 35px;
+
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+
+            color: #e2e8f0;
+        }
+
+        .feature p {
+            color: #94a3b8;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #64748b;
+
+            border-top: 1px solid rgba(255,255,255,0.06);
+
+            margin-top: 50px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 750px) {
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .form-grid,
+            .details-grid,
+            .match-list {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 22px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">
+        🚀 CareerGuide AI
+    </div>
+
+    <div class="nav-text">
+        Smart Career Recommendation System
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <h1>
+        Discover Your Perfect Career
+    </h1>
+
+    <p>
+        CareerGuide AI analyzes your educational background,
+        interests, skills, working style and career priorities
+        to suggest career paths that match your profile.
+    </p>
+
+</section>
+
+
+<div class="container">
+
+
+<!-- ASSESSMENT FORM -->
+
+<div class="card">
+
+    <h2>
+        🎯 Career Assessment
+    </h2>
+
+    <p class="card-subtitle">
+        Answer the questions below to receive your personalized career recommendations.
+    </p>
+
+
+    <form action="/recommend" method="POST">
+
+
+        <div class="form-grid">
+
+
+            <!-- BACKGROUND -->
+
+            <div class="form-group">
+
+                <label>
+                    📚 Educational Background
+                </label>
+
+                <select name="background" required>
+
+                    <option value="">
+                        Select your background
+                    </option>
+
+                    <option value="computer">
+                        Computer / IT
+                    </option>
+
+                    <option value="medical">
+                        Medical
+                    </option>
+
+                    <option value="business">
+                        Business / Commerce
+                    </option>
+
+                    <option value="arts">
+                        Arts / Design
+                    </option>
+
+                    <option value="science">
+                        Science
+                    </option>
+
+                    <option value="engineering">
+                        Engineering
+                    </option>
+
+                    <option value="humanities">
+                        Humanities
+                    </option>
+
+                    <option value="agriculture">
+                        Agriculture
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- INTEREST -->
+
+            <div class="form-group">
+
+                <label>
+                    ❤️ Main Interest
+                </label>
+
+                <select name="interest" required>
+
+                    <option value="">
+                        Select your interest
+                    </option>
+
+                    <option value="technology">
+                        Technology
+                    </option>
+
+                    <option value="healthcare">
+                        Healthcare
+                    </option>
+
+                    <option value="law">
+                        Law
+                    </option>
+
+                    <option value="business">
+                        Business
+                    </option>
+
+                    <option value="design">
+                        Design
+                    </option>
+
+                    <option value="teaching">
+                        Teaching
+                    </option>
+
+                    <option value="media">
+                        Media / Content
+                    </option>
+
+                    <option value="science">
+                        Science
+                    </option>
+
+                    <option value="engineering">
+                        Engineering
+                    </option>
+
+                    <option value="agriculture">
+                        Agriculture
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SKILL -->
+
+            <div class="form-group">
+
+                <label>
+                    💡 Strongest Skill
+                </label>
+
+                <select name="skill" required>
+
+                    <option value="">
+                        Select your strongest skill
+                    </option>
+
+                    <option value="programming">
+                        Programming
+                    </option>
+
+                    <option value="biology">
+                        Biology
+                    </option>
+
+                    <option value="communication">
+                        Communication
+                    </option>
+
+                    <option value="creativity">
+                        Creativity
+                    </option>
+
+                    <option value="mathematics">
+                        Mathematics
+                    </option>
+
+                    <option value="leadership">
+                        Leadership
+                    </option>
+
+                    <option value="research">
+                        Research
+                    </option>
+
+                    <option value="technical">
+                        Technical Skills
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- WORK STYLE -->
+
+            <div class="form-group">
+
+                <label>
+                    ⚡ Preferred Work Style
+                </label>
+
+                <select name="work_style" required>
+
+                    <option value="">
+                        Select your work style
+                    </option>
+
+                    <option value="problem_solving">
+                        Solving Problems
+                    </option>
+
+                    <option value="helping_people">
+                        Helping People
+                    </option>
+
+                    <option value="creative">
+                        Creative Work
+                    </option>
+
+                    <option value="leadership">
+                        Leading Teams
+                    </option>
+
+                    <option value="research">
+                        Research & Analysis
+                    </option>
+
+                    <option value="communication">
+                        Communication
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- GOAL -->
+
+            <div class="form-group">
+
+                <label>
+                    🎯 Career Goal
+                </label>
+
+                <select name="goal" required>
+
+                    <option value="">
+                        Select your career goal
+                    </option>
+
+                    <option value="technology">
+                        Technology Career
+                    </option>
+
+                    <option value="medical">
+                        Medical Career
+                    </option>
+
+                    <option value="business">
+                        Business Career
+                    </option>
+
+                    <option value="design">
+                        Design Career
+                    </option>
+
+                    <option value="law">
+                        Law Career
+                    </option>
+
+                    <option value="education">
+                        Education / Teaching
+                    </option>
+
+                    <option value="media">
+                        Media Career
+                    </option>
+
+                    <option value="research">
+                        Research Career
+                    </option>
+
+                    <option value="engineering">
+                        Engineering Career
+                    </option>
+
+                    <option value="agriculture">
+                        Agriculture Career
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div class="form-group">
+
+                <label>
+                    ⭐ What Matters Most To You?
+                </label>
+
+                <select name="confidence" required>
+
+                    <option value="">
+                        Select your priority
+                    </option>
+
+                    <option value="impact">
+                        Making an Impact
+                    </option>
+
+                    <option value="income">
+                        Good Income
+                    </option>
+
+                    <option value="creativity">
+                        Creativity
+                    </option>
+
+                    <option value="stability">
+                        Career Stability
+                    </option>
+
+                    <option value="innovation">
+                        Innovation
+                    </option>
+
+                    <option value="knowledge">
+                        Knowledge & Learning
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <button class="btn" type="submit">
+
+            🚀 Analyze My Career
+
+        </button>
+
+
+    </form>
+
+</div>
+
+
+{% if result %}
+
+
+<!-- RESULT SECTION -->
+
+<div class="result">
+
+
+    <div class="result-header">
+
+        <h2>
+            ✨ Your Career Analysis
+        </h2>
+
+        <p>
+            Based on your answers, here are your strongest career matches.
+        </p>
+
+    </div>
+
+
+    <!-- BEST CAREER -->
+
+    <div class="best-career">
+
+        <span class="badge">
+            🥇 BEST CAREER MATCH
+        </span>
+
+        <h3>
+            {{ career_name }}
+        </h3>
+
+        <div class="match-score">
+            {{ match_score }}%
+        </div>
+
+        <p class="description">
+            {{ description }}
+        </p>
+
+    </div>
+
+
+    <!-- TOP 3 -->
+
+    <div class="top-matches">
+
+        <h3>
+            📊 Your Top Career Matches
+        </h3>
+
+
+        <div class="match-list">
+
+
+            <!-- BEST MATCH -->
+
+            <div class="match-card">
+
+                <strong>
+                    🥇 {{ career_name }}
+                </strong>
+
+                <span class="match-percent">
+                    {{ match_score }}%
+                </span>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width: {{ match_score }}%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OTHER MATCHES -->
+
+            {% for alternative in alternatives %}
+
+            <div class="match-card">
+
+                <strong>
+                    {% if loop.index == 1 %}
+                        🥈
+                    {% else %}
+                        🥉
+                    {% endif %}
+
+                    {{ alternative.name }}
+
+                </strong>
+
+                <span class="match-percent">
+                    {{ alternative.score }}%
+                </span>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        style="width: {{ alternative.score }}%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+
+    <!-- DETAILS -->
+
+    <div class="details-grid">
+
+
+        <!-- SKILLS -->
+
+        <div class="detail-box">
+
+            <h4>
+                🧠 Recommended Skills
+            </h4>
+
+            <div class="skills">
+
+                {% for skill in skills %}
+
+                <span class="skill">
+                    {{ skill }}
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- FIELDS -->
+
+        <div class="detail-box">
+
+            <h4>
+                💼 Career Fields
+            </h4>
+
+            <p>
+                {{ fields | join(", ") }}
+            </p>
+
+        </div>
+
+
+        <!-- EDUCATION -->
+
+        <div class="detail-box">
+
+            <h4>
+                🎓 Recommended Education
+            </h4>
+
+            <p>
+                {{ education }}
+            </p>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="detail-box">
+
+            <h4>
+                💡 Why This Career?
+            </h4>
+
+            <p>
+                This career matches your selected background,
+                interests, skills, working style and career priorities.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ROADMAP -->
+
+    <div class="roadmap">
+
+        <h3>
+            🛣️ Your Career Roadmap
+        </h3>
+
+
+        {% for step in roadmap %}
+
+        <div class="roadmap-item">
+
+            <span class="step-number">
+                {{ loop.index }}
+            </span>
+
+            <span>
+                {{ step }}
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+
+    </div>
+
+
+</div>
+
+
+{% endif %}
+
+
+<!-- FEATURES -->
+
+<div class="features">
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🎯
+        </div>
+
+        <h3>
+            Personalized
+        </h3>
+
+        <p>
+            Recommendations are generated according
+            to the student's individual profile.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🧠
+        </div>
+
+        <h3>
+            Smart Matching
+        </h3>
+
+        <p>
+            A weighted scoring algorithm compares
+            multiple career factors.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            🚀
+        </div>
+
+        <h3>
+            Future Focused
+        </h3>
+
+        <p>
+            Students receive useful skills,
+            education and career roadmap suggestions.
+        </p>
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 CareerGuide AI | Smart Career Recommendation System
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
